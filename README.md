@@ -1,0 +1,1 @@
+# SlotsMachine.wpf
