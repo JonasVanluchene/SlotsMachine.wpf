@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace SlotsMachine.wpf
 {
@@ -23,11 +23,16 @@ namespace SlotsMachine.wpf
             InitializeComponent();
         }
 
+        Random random;
+        string imageLocation;
+        List<Image> images;
+        List<BitmapImage> symbolImages;
+        int totalScore;
+        const int threeMatches = 15;
+        const int twoMatches = 5;
+        const int noMatches = 0;
 
-        string location = AppDomain.CurrentDomain.BaseDirectory;
-        List<Image> images = new List<Image>();
-        List<BitmapImage> symbols = new List<BitmapImage>();
-        int totalScore = 0;
+
         private void btnSpin_Click(object sender, RoutedEventArgs e)
         {
             SpinTheWheel();            
@@ -38,27 +43,52 @@ namespace SlotsMachine.wpf
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //Assign variables
+            random = new Random();
+            imageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"img");
+            images = new List<Image>();
+            symbolImages = new List<BitmapImage>();
+            totalScore = 0;
 
             //Asign images to list
-            
-            DirectoryInfo directory = new DirectoryInfo($@"{location}img\");
-            foreach(FileInfo fi in directory.GetFiles())
-            {
-                symbols.Add(new BitmapImage(new Uri(fi.FullName, UriKind.Absolute)));
-            }
+
+            ImportImages();
 
             images.Add(imgSlot1);
             images.Add(imgSlot2);
             images.Add(imgSlot3);
         }
 
+
+        private void ImportImages()
+        {
+            DirectoryInfo di = new DirectoryInfo(imageLocation);
+            foreach(FileInfo fi in di.GetFiles("*.png"))
+            {
+                try
+                {
+                    symbolImages.Add(new BitmapImage(new Uri(fi.FullName, UriKind.Absolute)));
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show($"Error bij laden image {fi.Name}: {ex.Message}", "Waarschuwing",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+                
+
+
+            }
+             
+        }
+
         private void SpinTheWheel()
         {
-            Random random = new Random();
-            int max = symbols.Count;
+            
+            int max = symbolImages.Count;
             foreach(Image img in images)
             {
-                img.Source = symbols[random.Next(max)];
+                img.Source = symbolImages[random.Next(max)];
             }
         }
 
@@ -66,15 +96,15 @@ namespace SlotsMachine.wpf
         {
             if (images[0].Source == images[1].Source && images[0].Source == images[2].Source)
             {
-                return 15;
+                return threeMatches;
             }
             else if (images[0].Source == images[1].Source || images[1].Source == images[2].Source)
             {
-                return 5;
+                return twoMatches;
             }
             else
             {
-                return 0;
+                return noMatches;
             }
         }
     }
