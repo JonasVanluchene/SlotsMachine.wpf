@@ -27,9 +27,13 @@ namespace SlotsMachine.wpf
         string location = AppDomain.CurrentDomain.BaseDirectory;
         List<Image> images = new List<Image>();
         List<BitmapImage> symbols = new List<BitmapImage>();
+        int totalScore = 0;
         private void btnSpin_Click(object sender, RoutedEventArgs e)
         {
-            SpinTheWheel();
+            SpinTheWheel();            
+            txbScore.Text = CalculateScore(images).ToString();
+            totalScore += CalculateScore(images);
+            txbTotalScore.Text = totalScore.ToString();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -55,6 +59,22 @@ namespace SlotsMachine.wpf
             foreach(Image img in images)
             {
                 img.Source = symbols[random.Next(max)];
+            }
+        }
+
+        private int CalculateScore(List<Image> images)
+        {
+            if (images[0].Source == images[1].Source && images[0].Source == images[2].Source)
+            {
+                return 15;
+            }
+            else if (images[0].Source == images[1].Source || images[1].Source == images[2].Source)
+            {
+                return 5;
+            }
+            else
+            {
+                return 0;
             }
         }
     }

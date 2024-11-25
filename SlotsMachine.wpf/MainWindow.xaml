@@ -13,7 +13,7 @@
             <RowDefinition Height="25*"></RowDefinition>
         </Grid.RowDefinitions>
         <StatusBar Grid.Row="2" Margin="0,17,0,0"/>
-        <WrapPanel Margin="29,50,30,26">
+        <WrapPanel Margin="30,10,29,66">
             <Image x:Name="imgSlot1" Height="100" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="23,15,0,0"/>
             <Image x:Name="imgSlot2" Height="100" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,15,0,0"/>
             <Image x:Name="imgSlot3" Height="100" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,15,0,0"/>
@@ -21,6 +21,10 @@
         <StackPanel Grid.Row="1">
             <Button x:Name="btnSpin" Content="Spin!" Margin="0,45,0,0" Width="225" Click="btnSpin_Click"/>
         </StackPanel>
+        <TextBlock x:Name="txbScore" HorizontalAlignment="Left" Margin="53,166,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <TextBlock x:Name="txbTotalScore" HorizontalAlignment="Left" Margin="369,174,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Label Content="Score:" HorizontalAlignment="Left" Margin="34,140,0,0" VerticalAlignment="Top"/>
+        <Label Content="Totale score" HorizontalAlignment="Left" Margin="369,140,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
